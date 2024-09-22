@@ -25,6 +25,7 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     @IsEmail()
+    
     @ApiProperty({
         description: 'Email of the user',
         example: "example@example.com"

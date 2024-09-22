@@ -3,10 +3,19 @@ import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUsersParamDto } from './dtos/get-users-param.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
+import { UsersService } from './providers/users.service';
+
 
 @Controller(`users`)
 @ApiTags('Users')
 export class UsersController {
+
+  constructor(
+    private readonly userService: UsersService
+  ) {
+
+  }
+
   @Get('/:id?')
   @ApiOperation({
     summary: "Fetches of user which registered in application"
@@ -42,8 +51,7 @@ export class UsersController {
   @Post()
   public createUsers(
     @Body(new ValidationPipe()) createUserDto: CreateUserDto) { // nest
-    console.log('request : ', createUserDto)
-    return `you sent a post request to users endpoint`;
+    return this.userService.createUser(createUserDto)
   }
 
   @ApiQuery({
@@ -55,7 +63,7 @@ export class UsersController {
     description: "your particular user is updated"
   })
   @ApiOperation({
-    summary:'Updates existing user'
+    summary: 'Updates existing user'
   })
   @Patch()
   public patchUser(@Body() patchUserDto: PatchUserDto) {

@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MaxLength, MinLength, ValidateNested } from "class-validator";
 import { POST_TYPE } from "../enums/postType.enum";
 import { POST_STATUS } from "../enums/status.enum";
 import { CreatePostMetaOptionsDto } from "./create-post-meta-options.dto";
@@ -9,6 +9,7 @@ export class CreatePostDto {
     @IsString()
     @IsNotEmpty()
     @MinLength(4)
+    @MaxLength(512)
     @ApiProperty({
         description: "This is the title for the blog post",
         example: "What's new in your code?"
@@ -25,6 +26,7 @@ export class CreatePostDto {
 
     @IsString()
     @IsNotEmpty()
+    @MaxLength(256)
     @ApiProperty({
         description: "for example - 'my-url'",
         example: "new-with-nestjs"
@@ -51,6 +53,7 @@ export class CreatePostDto {
     content?: string;
 
     @IsOptional()
+    @MaxLength(1024)
     @IsJSON()
     @ApiPropertyOptional({
         description: "Serialize your JSON object else a validation error raises",
